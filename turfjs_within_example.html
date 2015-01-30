@@ -4717,22 +4717,43 @@ var metro ={
 ]
 }
 
-var center = turf.center(metro)
+var arp = turf.point ([ -0.80833333333333333333333333333333,51.611666666666666666666666666667 ]);
 
-center.properties = {
+arp.properties = {
     "marker-color": "#25561F",
     "title": "Center Point",
     "marker-size": "large",
     "marker-symbol": "star-stroked"
-}; 
+};  
+
+var arp_buffer = turf.buffer(arp,18.52,'kilometers')
+var metro_buffer = turf.buffer(arp,185.2,'kilometers')
+
+var obstacles_within = turf.within(metro,arp_buffer)
+var metro_within = turf.within(metro,metro_buffer)
+
+
+//var center = turf.center(metro)
+
+/* center.properties = {
+    "marker-color": "#25561F",
+    "title": "Center Point",
+    "marker-size": "large",
+    "marker-symbol": "star-stroked"
+};  */
 
 
 var  map = L.mapbox.map('map-one', 'examples.map-i86l3621').setView( [54.95314444,0.938233333] ,6) ;
 
-L.geoJson(metro).addTo(map) ;
+//L.geoJson(metro).addTo(map) ;
 //L.geoJson(center).addTo(map);
-L.mapbox.featureLayer().setGeoJSON(center).addTo(map);
+//L.mapbox.featureLayer().setGeoJSON(center).addTo(map);
 
+L.geoJson(metro_buffer).addTo(map) ;
+L.mapbox.featureLayer().setGeoJSON(arp).addTo(map);
+L.mapbox.featureLayer().setGeoJSON(arp_buffer).addTo(map);
+L.mapbox.featureLayer().setGeoJSON(obstacles_within).addTo(map);
+L.geoJson(metro_within).addTo(map) ;
 </script>
 </body>
 </html>
